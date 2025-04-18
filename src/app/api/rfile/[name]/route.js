@@ -19,7 +19,7 @@ export async function OPTIONS(request) {
 //https://developers.cloudflare.com/r2/examples/demo-worker/
 export async function GET(request, { params }) {
   const { name } = params
-  const folderName = 'image'; // 你的文件夹名称
+  const folderName = env.IMAGE_FOLDER || 'image';
   let { env, cf, ctx } = getRequestContext();
 
 	if(!env.IMGRS){
