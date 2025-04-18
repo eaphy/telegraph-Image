@@ -19,7 +19,6 @@ export async function OPTIONS(request) {
 //https://developers.cloudflare.com/r2/examples/demo-worker/
 export async function GET(request, { params }) {
   const { name } = params
-  const folderName = env.IMAGE_FOLDER || 'image';
   let { env, cf, ctx } = getRequestContext();
 
 	if(!env.IMGRS){
@@ -69,7 +68,7 @@ export async function GET(request, { params }) {
 
 
   try {
-
+    const folderName = env.IMAGE_FOLDER || 'image';
     const object = await env.IMGRS.get(`${folderName}/${name}`, {
       range: request.headers,
       onlyIf: request.headers,
