@@ -34,8 +34,15 @@ export async function POST(request) {
 
 	const formData = await request.formData();
 	const fileType = formData.get('file').type;
-	const filename = formData.get('file').name;
 	const file = formData.get('file');
+
+	    
+    // 修改1：获取文件夹路径或使用默认值
+    const folderPath = env.IMAGE_FOLDER || 'image';
+    const filename = formData.get('file').name;
+    
+    // 修改2：构建完整对象键（包含文件夹路径）
+    const objectKey = `${folderPath}/${filename}`.replace(/\/+/g, '/'); // 处理多余斜杠
 
 	const header = new Headers()
 	header.set("content-type", fileType)
@@ -54,8 +61,7 @@ export async function POST(request) {
 
 
 	try {
-
-		const object = await env.IMGRS.put(filename, file, {
+		const object = await env.IMGRS.put(objectKey, file, {
 			httpMetadata: header
 		})
 
